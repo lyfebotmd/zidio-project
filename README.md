@@ -1,36 +1,51 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Project LOOP - AI-Driven Customer Feedback Intelligence
 
-## Getting Started
+Project LOOP is a modern, multi-tenant customer feedback platform built to ingest customer comments, run automated sentiment analysis, extract key operational themes, and generate concise summaries using Anthropic's Claude 3.5 Sonnet.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🚀 Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Multi-Tenant Architecture**: Isolated workspace environments powered by NextAuth.js session context and Neon PostgreSQL.
+- **Bulk & Single Ingestion**: Submit individual feedback comments manually or upload bulk feedback datasets using `.csv` files parsed via `PapaParse`.
+- **Automated AI Processing**: Integrates Anthropic Claude 3.5 Sonnet to score sentiment (`POSITIVE`, `NEGATIVE`, `NEUTRAL`), extract up to 3 key themes, and summarize feedback in real-time.
+- **Visual Feedback Directory**: Status badges and feedback cards displaying raw input alongside AI insights.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🛠️ Tech Stack
 
-## Learn More
+- **Framework**: [Next.js 15 (App Router)](https://nextjs.org/)
+- **Language**: TypeScript
+- **Database**: [Neon PostgreSQL](https://neon.tech/)
+- **ORM**: [Prisma 5.22](https://www.prisma.io/)
+- **Authentication**: [NextAuth.js](https://next-auth.js.org/)
+- **AI Processing**: [Anthropic Claude API (Claude 3.5 Sonnet)](https://www.anthropic.com/)
+- **CSV Parser**: [PapaParse](https://www.papaparse.com/)
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📂 Project Structure
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```text
+project-loop/
+├── app/
+│   ├── api/
+│   │   ├── auth/[...nextauth]/route.ts  # NextAuth session configuration
+│   │   ├── feedback/
+│   │   │   ├── route.ts                 # Fetch & post single feedback entries
+│   │   │   ├── bulk/route.ts            # CSV bulk ingestion endpoint
+│   │   │   └── analyze/route.ts         # Claude AI analysis engine endpoint
+│   ├── dashboard/
+│   │   ├── page.tsx                     # Main customer feedback dashboard UI
+│   │   └── FeedbackCharts.tsx           # Visual analytics components
+│   └── providers.tsx                    # NextAuth Provider wrapper
+├── lib/
+│   ├── ai.ts                            # Claude 3.5 Sonnet prompt engine & parser
+│   ├── anthropic.ts                     # Anthropic SDK client setup
+│   └── prisma.ts                        # Singleton Prisma client instance
+├── prisma/
+│   ├── schema.prisma                    # Database schema definitions
+│   └── seed.ts                          # Database seed script for workspace/admin
+├── .env.example                         # Environment configuration template
+└── README.md
